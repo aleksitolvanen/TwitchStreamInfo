@@ -13,15 +13,15 @@ namespace TwitchStreamInfo
     /// </summary>
     public partial class MainWindow : Window
     {
-        private TwitchStreamInfoMain main;
+        private TwitchStreamService main;
 
         public MainWindow()
         {
             InitializeComponent();
+
             if (Initialize())
             {
-                var apiClientId = ConfigurationManager.AppSettings["ApiClientId"].ToString();
-                main = new TwitchStreamInfoMain(apiClientId);
+                main = new TwitchStreamService(ConfigurationManager.AppSettings["ApiClientId"].ToString());
             }
         }
 
@@ -101,6 +101,7 @@ namespace TwitchStreamInfo
         private void EnableAll()
         {
             StartButton.IsEnabled = StopButton.IsEnabled = UpdateIntervalComboBox.IsEnabled = StreamerTextBox.IsEnabled = true;
+            ViewersTextBlock.Text = ErrorTextBlock.Text = string.Empty;
         }
 
         private void DisableAll()

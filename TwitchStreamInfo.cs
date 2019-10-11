@@ -9,7 +9,7 @@ using TwitchStreamInfo.Models;
 
 namespace TwitchStreamInfo
 {
-    public class TwitchStreamInfoMain
+    public class TwitchStreamService
     {
         private readonly string _apiClientId;
         private readonly string _getStreamInformationUrl = "https://api.twitch.tv/kraken/streams/{0}";
@@ -20,7 +20,7 @@ namespace TwitchStreamInfo
         private CancellationTokenSource _ts;
         HttpClient client;
 
-        public TwitchStreamInfoMain(string apiClientId)
+        public TwitchStreamService(string apiClientId)
         {
             System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
             client = new HttpClient(new HttpClientHandler() { UseProxy = false });
