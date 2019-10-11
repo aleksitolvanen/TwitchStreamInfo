@@ -17,9 +17,11 @@ namespace TwitchStreamInfo
         private readonly string _acceptHeader = "application/vnd.twitchtv.v5+json";
         private string _channelId;
         private CancellationTokenSource _ts;
+        HttpClient client;
 
         public TwitchStreamInfoMain(string apiClientId)
         {
+            client = new HttpClient(new HttpClientHandler() { UseProxy = false });
             _apiClientId = apiClientId;
         }
 
@@ -94,19 +96,16 @@ namespace TwitchStreamInfo
         {
             string result = null;
 
-            using (HttpClient client = new HttpClient())
+            var request = new HttpRequestMessage()
             {
-                var request = new HttpRequestMessage()
-                {
-                    RequestUri = uri,
-                    Method = HttpMethod.Get,
-                };
-                request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(_acceptHeader));
-                request.Headers.Add("Client-ID", new string[] { _apiClientId });
+                RequestUri = uri,
+                Method = HttpMethod.Get,
+            };
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(_acceptHeader));
+            request.Headers.Add("Client-ID", new string[] { _apiClientId });
 
-                var httpResponse = await client.SendAsync(request).ConfigureAwait(false);
-                result = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-            }
+            var httpResponse = await client.SendAsync(request).ConfigureAwait(false);
+            result = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
 
             return result;
         }
@@ -123,8 +122,9 @@ namespace TwitchStreamInfo
                 var streamUser = streamInformationWrapper.users[0];
                 name = streamUser._id;
             }
-            catch
+            catch (Exception ex)
             {
+
             }
 
             return name;
