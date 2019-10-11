@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
@@ -21,6 +22,7 @@ namespace TwitchStreamInfo
 
         public TwitchStreamInfoMain(string apiClientId)
         {
+            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
             client = new HttpClient(new HttpClientHandler() { UseProxy = false });
             _apiClientId = apiClientId;
         }
