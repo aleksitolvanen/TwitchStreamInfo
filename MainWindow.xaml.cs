@@ -50,7 +50,7 @@ namespace TwitchStreamInfo
             InfoTextBlock.Text = ViewersTextBlock.Text = string.Empty;
 
             var interval = Convert.ToInt32(((ComboBoxItem)UpdateIntervalComboBox.Items[UpdateIntervalComboBox.SelectedIndex]).Tag);
-            var result = await main.StartPeriodicTask(StreamerTextBox.Text, interval, OnTick).ConfigureAwait(false);
+            var result = await main.StartPeriodicTask(StreamerTextBox.Text, interval, OnTick);
 
             if (!result)
             {
